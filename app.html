@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <title> Online Shopping </title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/fontawesome.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        body {
+            padding-top: 10px;
+        }
+        
+        .more,
+        .less,
+        .none {
+            font-weight: bold;
+        }
+        
+        .more {
+            color: green;
+        }
+        
+        .less {
+            color: orangered;
+        }
+        
+        .none {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!--container div-->
+    <div class="container" id="mainwrapper">
+        <!-- banner div-->
+        <div class="row bg-dark text-light justify-content-between p-2 align-items-baseline">
+            <a href="#" style="color: yellow;text-decoration: none;" @click.prevent="iscartvisible=false">Products</a>
+            <div class="d-flex align-items-baseline">
+                <p class="mx-2"> [0] items with total price [0$]</p>
+                <button class="btn btn-primary" @click="iscartvisible=true">Cart</button>
+            </div>
+        </div>
+        <!--products div-->
+        <div class="row justify-content-between" v-if="iscartvisible==false">
+            <!--card div-->
+            <div class="card p-1" style="width:23em;margin: 0.2em;" v-for="product in products">
+                <img :src="product.images" class="card-img-top w-100 h-75" :title="product.name" />
+                <h3 class="text-center my-2"> {{product.name}}</h3>
+                <p class="text-justify">{{product.description}}</p>
+                <div class="card-footer d-flex justify-content-between align-items-baseline">
+                    <p :class="[product.instock>=10?'more':'', product.instock<10?'less':'',product.instock==0?'none':'']">Stock: <span>{{product.instock}}</span></p>
+                    <button class="btn btn-primary" :disabled="product.instock==0">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        <!--cart div-->
+        <div class="row" v-if="iscartvisible">
+            <h3 class="text-danger text-center w-100 my-3">Your cart is empty, buy some product!</h3>
+        </div>
+    </div>
+
+    <script src="js/JQuery-3.3.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="products.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data: () => ({
+                products: products,
+                iscartvisible: false,
+            }),
+        });
+        app.mount("#mainwrapper");
+    </script>
+</body>
+
+</html>
